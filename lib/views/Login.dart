@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/HomePage.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:myfirstproject/views/home.dart';
 
 import 'register.dart';
@@ -17,8 +19,45 @@ class login extends StatefulWidget {
 
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
-String uname = "robobrain@gmail.com";
-String pass = "123456";
+//String uname = "robobrain@gmail.com";
+//String pass = "123456";
+
+var email = "";
+var password = "";
+Future Login(BuildContext cont) async {
+  // String url = "https://4f83-102-184-173-88.eu.ngrok.io/patient/string";
+  // final response = await http.get(Uri.parse(url));
+
+  // var responseData = json.decode(response.body);
+  // print(responseData);
+  Map<String, dynamic> body = {
+    "email": email,
+    "password": password,
+  };
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+  if (email == "" || password == "") {
+    print('Fields have not to be empty');
+  } else {
+    var url =
+        Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/patient/login");
+    var response = await http.post(url,
+        headers: {'content-Type': 'application/json'},
+        body: jsonBody,
+        encoding: encoding);
+
+    var data = json.decode(response.body);
+    print(data);
+    if (data == "Success") {
+      print("Login succeeded");
+      Navigator.push(cont, MaterialPageRoute(builder: (context) => HomePage()));
+    } else {
+      print("User not Found");
+      emailController.text = "";
+      passwordController.text = "";
+    }
+  }
+}
 
 class _loginState extends State<login> {
   @override
@@ -49,6 +88,9 @@ class _loginState extends State<login> {
                   ),
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
+                  onChanged: (String value) {
+                    email = value;
+                  },
                   validator: (value) =>
                       value!.isEmpty ? 'Email cannot be blank' : null,
                 ),
@@ -62,9 +104,12 @@ class _loginState extends State<login> {
                     suffixIcon: Icon(Icons.visibility),
                   ),
                   controller: passwordController,
+                  onChanged: (value) {
+                    password = value;
+                  },
                   keyboardType: TextInputType.visiblePassword,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Password cannot be blank' : null,
+                  // validator: (value) =>
+                  //     value!.isEmpty ? 'Password cannot be blank' : null,
                 ),
                 SizedBox(
                   height: 30,
@@ -77,16 +122,9 @@ class _loginState extends State<login> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     onPressed: () {
-                      if (uname == emailController.text &&
-                          pass == passwordController.text) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()));
-                      } else {
-                        emailController.text = "";
-                        passwordController.text = "";
-                      }
+                      Login(context);
+                      print(email);
+                      print(password);
                     },
                   ),
                 ),

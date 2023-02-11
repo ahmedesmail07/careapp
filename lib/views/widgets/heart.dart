@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +15,39 @@ class heart extends StatefulWidget {
   State<heart> createState() => _heartState();
 }
 
+var test = '100.0';
+var date = '11 FEBRUARY';
+Future update(BuildContext cont) async {
+  Map<String, dynamic> body = {
+    "email": "",
+    "password": "",
+  };
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+
+  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
+  var response = await http.get(
+    url,
+    headers: {'content-Type': 'application/json'},
+  );
+
+  var data = json.decode(response.body);
+  test = data["heart_rate"].toString();
+  if (data["heart_rate"] < 120) {
+    print('patient died');
+  }
+  print(data["heart_rate"]);
+}
+
 class _heartState extends State<heart> {
-  var test = '';
-  var text = '';
   @override
   Widget build(BuildContext context) {
-    DioHelper.getData(url: 'activity/', query: {'': ''}).then((value) {
-      print(value!.data['type'].toString());
-      test = value.data['type'].toString();
-    }).catchError((error) {
-      print(error.toString());
-    });
+    // DioHelper.getData(url: 'activity/', query: {'': ''}).then((value) {
+    //   print(value!.data['type'].toString());
+    //   test = value.data['type'].toString();
+    // }).catchError((error) {
+    //   print(error.toString());
+    // });
     return Container(
       padding: EdgeInsets.only(
         top: 20,
@@ -37,7 +61,7 @@ class _heartState extends State<heart> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              text = test;
+              update(context);
             });
           },
           child: Icon(Icons.update),
@@ -115,14 +139,14 @@ class _heartState extends State<heart> {
                                   height: 80,
                                 ),
                                 Text(
-                                  text,
+                                  '11 February',
                                   style: TextStyle(
                                       fontSize: 20,
                                       color:
                                           Color.fromARGB(255, 114, 109, 109)),
                                 ),
                                 Text(
-                                  '072',
+                                  test,
                                   style: TextStyle(
                                       fontSize: 60,
                                       color: Color.fromARGB(255, 73, 71, 71)),

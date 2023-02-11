@@ -14,17 +14,48 @@ class register extends StatefulWidget {
   State<register> createState() => _registerState();
 }
 
-// Future fetch_users() async {
-//   var response = await http.get(Uri.parse('http://localhost:8000'));
-//   var users = [];
-//   for (var u in jsonDecode(response.body)) {
-//     users.add(
-//       User(u['id'], u['email'], u['name'], u['password']),
-//     );
-//   }
-//   print(users);
-//   return users;
-// }
+var email = "";
+var password = "";
+Future SignUp(BuildContext cont) async {
+  Map<String, dynamic> body = {
+    "id": "982",
+    "email": email,
+    "password": password,
+    "patient_full_name": "Mohamed Badr",
+    "username": "Badr706",
+    "phone_number": "01094189691",
+    "address": "Zagazig, Egypt",
+    "age": "23",
+  };
+  String jsonBody = json.encode(body);
+  final encoding = Encoding.getByName('utf-8');
+  if (emailController.text == " " || passwordController.text == " ") {
+    print('Fields have not to be empty');
+  } else {
+    var url =
+        Uri.parse("https://28a5-102-184-173-88.eu.ngrok.io/patient/signup");
+    var response = await http.post(url,
+        headers: {'content-Type': 'application/json'},
+        body: jsonBody,
+        encoding: encoding);
+    var result = response.body;
+
+    print(result);
+
+    // var data = json.decode(response.body);
+    // if (data == "Success") {
+    //   print("Registeration succeeded");
+    //   Navigator.push(
+    //     cont,
+    //     MaterialPageRoute(
+    //       builder: (context) => login(),
+    //     ),
+    //   );
+    // } else {
+    //   print("Registeration Failed");
+    // }
+  }
+}
 
 class _registerState extends State<register> {
   @override
@@ -61,8 +92,12 @@ class _registerState extends State<register> {
                     ),
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    validator: (value) =>
-                        value!.isEmpty ? 'Email cannot be blank' : null,
+                    onChanged: (String value) {
+                      email = value;
+                      print(value);
+                    },
+                    // validator: (value) =>
+                    //     value!.isEmpty ? 'Email cannot be blank' : null,
                   ),
                   SizedBox(
                     height: 20,
@@ -73,10 +108,15 @@ class _registerState extends State<register> {
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: Icon(Icons.visibility),
                     ),
-                    controller: emailController,
+                    controller: passwordController,
+                    obscureText: true,
+                    onFieldSubmitted: (String value) {
+                      password = value;
+                      print(value);
+                    },
                     keyboardType: TextInputType.visiblePassword,
-                    validator: (value) =>
-                        value!.isEmpty ? 'Password cannot be blank' : null,
+                    // validator: (value) =>
+                    //     value!.isEmpty ? 'Password cannot be blank' : null,
                   ),
                   SizedBox(
                     height: 30,
@@ -88,7 +128,11 @@ class _registerState extends State<register> {
                         'REGISTER',
                         style: TextStyle(fontSize: 20.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print(email);
+                        print(password);
+                        SignUp(context);
+                      },
                     ),
                   ),
                   SizedBox(

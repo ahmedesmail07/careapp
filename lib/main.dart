@@ -4,6 +4,8 @@ import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/Welcome.dart';
 import 'dart:async';
 
+import 'package:myfirstproject/views/widgets/heart.dart';
+
 void main() {
   DioHelper.init();
   runApp(const healthapp());
@@ -16,7 +18,7 @@ class healthapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Welcome(),
+      home: heart(),
     );
   }
 }
