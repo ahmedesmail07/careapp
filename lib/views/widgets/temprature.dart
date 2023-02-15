@@ -5,19 +5,17 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
-import 'package:myfirstproject/views/register.dart';
 
-class heart extends StatefulWidget {
+class temprature extends StatefulWidget {
   static List<dynamic> activities = [];
 
-  const heart({super.key});
+  const temprature({super.key});
 
   @override
-  State<heart> createState() => _heartState();
+  State<temprature> createState() => _tempratureState();
 }
 
-var test = "";
-
+var test = '100.0';
 var date = '11 FEBRUARY';
 Future update(BuildContext cont) async {
   Map<String, dynamic> body = {
@@ -42,10 +40,10 @@ Future update(BuildContext cont) async {
   print(data["heart_rate"]);
 }
 
-class _heartState extends State<heart> {
+class _tempratureState extends State<temprature> {
   @override
   Widget build(BuildContext context) {
-    // update(context);
+    //update(context);
 
     // DioHelper.getData(url: 'activity/', query: {'': ''}).then((value) {
     //   print(value!.data['type'].toString());
@@ -66,8 +64,7 @@ class _heartState extends State<heart> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              print(token);
-              //  update(context);
+              update(context);
             });
           },
           child: Icon(Icons.update),
@@ -96,7 +93,7 @@ class _heartState extends State<heart> {
                   ),
                 ),
                 Text(
-                  "Heart Rate",
+                  "Temprature",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 28,
@@ -152,13 +149,13 @@ class _heartState extends State<heart> {
                                           Color.fromARGB(255, 114, 109, 109)),
                                 ),
                                 Text(
-                                  "test",
+                                  test,
                                   style: TextStyle(
                                       fontSize: 60,
                                       color: Color.fromARGB(255, 73, 71, 71)),
                                 ),
                                 Text(
-                                  '❤️  BPM',
+                                  '🌡 Celisus',
                                   style: TextStyle(
                                       fontSize: 25,
                                       color:
@@ -192,7 +189,7 @@ class _heartState extends State<heart> {
                                 Row(
                                   children: [
                                     Text(
-                                      "💙 ",
+                                      "💠 ",
                                       style: TextStyle(fontSize: 25.0),
                                     ),
                                     Text(
@@ -217,11 +214,11 @@ class _heartState extends State<heart> {
                                 Row(
                                   children: [
                                     Text(
-                                      "💔 ",
+                                      "⛔️ ",
                                       style: TextStyle(fontSize: 25.0),
                                     ),
                                     Text(
-                                      "100",
+                                      "40",
                                       style: TextStyle(fontSize: 25.0),
                                     ),
                                   ],

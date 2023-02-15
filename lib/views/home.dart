@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/widgets/sensorReading.dart';
 import 'HomePage.dart';
+import 'package:http/http.dart' as http;
 import 'Welcome.dart';
 import 'notif.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -12,10 +15,44 @@ class home extends StatefulWidget {
   State<home> createState() => _homeState();
 }
 
+var username = "";
+var age = "";
+Future reload(BuildContext cont) async {
+  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
+  var response = await http.get(
+    url,
+    headers: {'content-Type': 'application/json'},
+  );
+
+  // var data = json.decode(response.body);
+  username = "RoboBrain";
+  //   username = data["heart_rate"].toString();
+  //   if (data["heart_rate"] < 120) {
+  //     print('patient died');
+  //   }
+  //   print(data["heart_rate"]);
+}
+
+Future update(BuildContext cont) async {
+  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
+  var response = await http.get(
+    url,
+    headers: {'content-Type': 'application/json'},
+  );
+
+  var data = json.decode(response.body);
+  // test = "Hello";
+  if (data["heart_rate"] < 120) {
+    print('patient died');
+  }
+  print(data["heart_rate"]);
+}
+
 class _homeState extends State<home> {
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    reload(context);
     assert(debugCheckHasMaterial(context));
     return Container(
       child: Column(
@@ -25,131 +62,165 @@ class _homeState extends State<home> {
               horizontal: 25.0,
               vertical: 15,
             ),
-            child: Column(children: [
-              //greetings
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Welcome(),
-                        ),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
+            child: Expanded(
+              child: Column(children: [
+                //greetings
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Welcome(),
+                          ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                //hello message
-                                'Hi, RoboBrain!',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          //hello message
+                                          'Hi,',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Text(
+                                          //hello message
+                                          username,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Text(
+                                          //hello message
+                                          '!',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    //date
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      'age,gender',
+                                      style: TextStyle(
+                                        color: Colors.blue[50],
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w200,
+                                        fontFamily: 'Kanit',
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              //date
                               SizedBox(
-                                height: 8,
+                                width: 40,
                               ),
-                              Text(
-                                'age,gender',
-                                style: TextStyle(
-                                  color: Colors.blue[50],
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w200,
-                                  fontFamily: 'Kanit',
-                                ),
+                              CircleAvatar(
+                                radius: 35,
+                                backgroundImage: NetworkImage(
+                                    'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/new%20logo%20finalllllllyyyy.jpg'),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            width: 40,
-                          ),
-                          CircleAvatar(
-                            radius: 35,
-                            backgroundImage: NetworkImage(
-                                'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/new%20logo%20finalllllllyyyy.jpg'),
-                          ),
                         ],
+                      ),
+                    ),
+
+                    //Notification
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.blueGrey[600],
+                    //       borderRadius: BorderRadius.circular(15)),
+                    //   padding: EdgeInsets.all(12.0),
+                    //   child: IconButton(
+                    //       color: iconColor,
+                    //       icon: Icon(
+                    //         Icons.update,
+                    //       ),
+                    //       onPressed: () {
+                    //         setState(() {
+                    //           if (iconColor == Colors.white) {
+                    //             iconColor = Colors.amber;
+                    //           } else {
+                    //             iconColor = Colors.white;
+                    //           }
+                    //         });
+                    //       }),
+                    // )
+                  ],
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                //search bar
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  // padding: EdgeInsets.all(12),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                            hintText: 'Search...',
+                            // Add a clear button to the search bar
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.delete_outline_rounded),
+                              onPressed: () => _searchController.clear(),
+                            ),
+                            prefixIcon: IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                // Perform the search here
+                              },
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
                       ),
                     ],
                   ),
-
-                  //Notification
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //       color: Colors.blueGrey[600],
-                  //       borderRadius: BorderRadius.circular(15)),
-                  //   padding: EdgeInsets.all(12.0),
-                  //   child: IconButton(
-                  //       color: iconColor,
-                  //       icon: Icon(
-                  //         Icons.update,
-                  //       ),
-                  //       onPressed: () {
-                  //         setState(() {
-                  //           if (iconColor == Colors.white) {
-                  //             iconColor = Colors.amber;
-                  //           } else {
-                  //             iconColor = Colors.white;
-                  //           }
-                  //         });
-                  //       }),
-                  // )
-                ],
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              //search bar
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                // padding: EdgeInsets.all(12),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                          hintText: 'Search...',
-                          // Add a clear button to the search bar
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.delete_outline_rounded),
-                            onPressed: () => _searchController.clear(),
-                          ),
-                          prefixIcon: IconButton(
-                            icon: Icon(Icons.search),
-                            onPressed: () {
-                              // Perform the search here
-                            },
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
-                    ),
-                  ],
+                SizedBox(
+                  height: 15,
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-            ]),
+              ]),
+            ),
           ),
           SizedBox(
             height: 15,

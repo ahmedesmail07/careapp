@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/HomePage.dart';
 import 'package:myfirstproject/views/Login.dart';
+import 'package:myfirstproject/views/login_screen.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -61,7 +62,7 @@ class Welcome extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => login(),
+                        builder: (context) => login_screen(),
                       ),
                     );
                   },

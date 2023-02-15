@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/widgets/heart.dart';
 import 'package:myfirstproject/views/widgets/blood.dart';
-import 'package:myfirstproject/views/widgets/pressure.dart';
+import 'package:myfirstproject/views/widgets/temprature.dart';
 import 'package:myfirstproject/views/widgets/temp.dart';
 
 import 'heart.dart';
@@ -17,7 +17,7 @@ class sensorReading extends StatelessWidget {
 
   List<Widget> sensors = [
     heart(),
-    pressure(),
+    temprature(),
     blood(),
     temp(),
   ];

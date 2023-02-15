@@ -69,85 +69,96 @@ class _loginState extends State<login> {
       //appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 100.0, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'LOGIN',
-                  style: Theme.of(context).textTheme.headline3,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (String value) {
-                    email = value;
-                  },
-                  validator: (value) =>
-                      value!.isEmpty ? 'Email cannot be blank' : null,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock),
-                    suffixIcon: Icon(Icons.visibility),
-                  ),
-                  controller: passwordController,
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  keyboardType: TextInputType.visiblePassword,
-                  // validator: (value) =>
-                  //     value!.isEmpty ? 'Password cannot be blank' : null,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: Text(
-                      'SIGN IN',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onPressed: () {
-                      Login(context);
-                      print(email);
-                      print(password);
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: Expanded(
+            flex: 3,
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.deepPurple, Colors.deepOrange])),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 100.0, left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Don\'t have an account?'),
-                    TextButton(
+                    Text(
+                      'LOGIN',
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: Icon(Icons.email),
+                      ),
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (String value) {
+                        email = value;
+                      },
+                      validator: (value) =>
+                          value!.isEmpty ? 'Email cannot be blank' : null,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: Icon(Icons.lock),
+                        //suffixIcon: Icon(Icons.visibility),
+                      ),
+                      controller: passwordController,
+                      onChanged: (value) {
+                        password = value;
+                      },
+                      keyboardType: TextInputType.visiblePassword,
+                      // validator: (value) =>
+                      //     value!.isEmpty ? 'Password cannot be blank' : null,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: Text(
+                          'SIGN IN',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => register(),
-                            ),
-                          );
+                          Login(context);
+                          print(email);
+                          print(password);
                         },
-                        child: Text('REGISTER'))
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Don\'t have an account?'),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => register(),
+                                ),
+                              );
+                            },
+                            child: Text('REGISTER'))
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
           ),
         ),
