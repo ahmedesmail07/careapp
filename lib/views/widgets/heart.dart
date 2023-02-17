@@ -27,14 +27,19 @@ Future update(BuildContext cont) async {
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
 
-  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
+  var url = Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/chair/data");
   var response = await http.get(
     url,
-    headers: {'content-Type': 'application/json'},
+    headers: {
+      'content-Type': 'application/json',
+      "Authorization": "Bearer ${token}"
+    },
   );
 
   var data = json.decode(response.body);
+  print(data);
   // test = "Hello";
+
   test = data["heart_rate"].toString();
   if (data["heart_rate"] < 120) {
     print('patient died');
@@ -66,8 +71,8 @@ class _heartState extends State<heart> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              print(token);
-              //  update(context);
+              //print(token);
+              update(context);
             });
           },
           child: Icon(Icons.update),
@@ -152,7 +157,7 @@ class _heartState extends State<heart> {
                                           Color.fromARGB(255, 114, 109, 109)),
                                 ),
                                 Text(
-                                  "test",
+                                  test,
                                   style: TextStyle(
                                       fontSize: 60,
                                       color: Color.fromARGB(255, 73, 71, 71)),

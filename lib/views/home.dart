@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/widgets/sensorReading.dart';
 import 'HomePage.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'Welcome.dart';
 import 'notif.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:myfirstproject/views/widgets/global.dart';
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -17,42 +19,32 @@ class home extends StatefulWidget {
 
 var username = "";
 var age = "";
-Future reload(BuildContext cont) async {
-  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
-  var response = await http.get(
-    url,
-    headers: {'content-Type': 'application/json'},
-  );
-
-  // var data = json.decode(response.body);
-  username = "RoboBrain";
-  //   username = data["heart_rate"].toString();
-  //   if (data["heart_rate"] < 120) {
-  //     print('patient died');
-  //   }
-  //   print(data["heart_rate"]);
-}
+var gender = "";
 
 Future update(BuildContext cont) async {
-  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
+  var url = Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/me");
   var response = await http.get(
     url,
-    headers: {'content-Type': 'application/json'},
+    headers: {
+      'content-Type': 'application/json',
+      "Authorization": "Bearer ${token}"
+    },
   );
-
+  print(token);
   var data = json.decode(response.body);
+  print(data);
   // test = "Hello";
-  if (data["heart_rate"] < 120) {
-    print('patient died');
-  }
-  print(data["heart_rate"]);
+
+  username = data["username"].toString();
+  age = data["age"].toString();
+  gender = data["gender"].toString();
 }
 
 class _homeState extends State<home> {
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    reload(context);
+    update(context);
     assert(debugCheckHasMaterial(context));
     return Container(
       child: Column(
@@ -88,6 +80,7 @@ class _homeState extends State<home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Column(
@@ -133,14 +126,32 @@ class _homeState extends State<home> {
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    Text(
-                                      'age,gender',
-                                      style: TextStyle(
-                                        color: Colors.blue[50],
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w200,
-                                        fontFamily: 'Kanit',
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          age,
+                                          style: TextStyle(
+                                            color: Colors.blue[50],
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w200,
+                                            fontFamily: 'Kanit',
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          gender,
+                                          style: TextStyle(
+                                            color: Colors.blue[50],
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w200,
+                                            fontFamily: 'Kanit',
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

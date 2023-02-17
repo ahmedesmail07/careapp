@@ -13,7 +13,7 @@ class login_screen extends StatefulWidget {
   State<login_screen> createState() => _login_screenState();
 }
 
-var formKey = GlobalKey<FormState>();
+var formkey = GlobalKey<FormState>();
 
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
@@ -37,9 +37,11 @@ Future Login(BuildContext cont) async {
     print('Fields have not to be empty');
   } else {
     var url =
-        Uri.parse("https://545b-197-133-196-239.eu.ngrok.io/patient/login");
+        Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/login");
     var response = await http.post(url,
-        headers: {'content-Type': 'application/json'},
+        headers: {
+          'content-Type': 'application/json',
+        },
         body: jsonBody,
         encoding: encoding);
 
@@ -76,7 +78,7 @@ class _login_screenState extends State<login_screen> {
               )),
           //WELCOME
           Form(
-            key: formKey,
+            key: formkey,
             child: Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(20),
@@ -132,7 +134,7 @@ class _login_screenState extends State<login_screen> {
                             style: TextStyle(fontSize: 20.0),
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
+                            if (formkey.currentState!.validate()) {
                               Login(context);
                             }
                           },
@@ -154,7 +156,17 @@ class _login_screenState extends State<login_screen> {
                                   ),
                                 );
                               },
-                              child: Text('REGISTER'))
+                              child: Text('REGISTER')),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                );
+                              },
+                              child: Text('Or Click here')),
                         ],
                       )
                     ],

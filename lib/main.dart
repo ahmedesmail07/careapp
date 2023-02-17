@@ -24,7 +24,7 @@ class healthapp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: login_screen(),
+      home: Welcome(),
     );
   }
 }

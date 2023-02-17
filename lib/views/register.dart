@@ -5,7 +5,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:myfirstproject/models/user.dart';
+import 'package:myfirstproject/views/Welcome.dart';
 import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/views/successful.dart';
 
 class register extends StatefulWidget {
   const register({super.key});
@@ -25,6 +27,7 @@ var id = "";
 var phone = "";
 var address = "";
 var age = "";
+var gender = "male";
 Future SignUp(BuildContext cont) async {
   Map<String, dynamic> body = {
     "id": id,
@@ -35,6 +38,7 @@ Future SignUp(BuildContext cont) async {
     "phone_number": phone,
     "address": address,
     "age": age,
+    "gender": gender,
   };
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
@@ -49,7 +53,7 @@ Future SignUp(BuildContext cont) async {
     print('Fields have not to be empty');
   } else {
     var url =
-        Uri.parse("https://545b-197-133-196-239.eu.ngrok.io/patient/signup");
+        Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/signup");
     var response = await http.post(url,
         headers: {'content-Type': 'application/json'},
         body: jsonBody,
@@ -57,12 +61,10 @@ Future SignUp(BuildContext cont) async {
     var result = response.body;
     print(result);
 
-    Navigator.push(
+    Navigator.pop(
       cont,
-      MaterialPageRoute(
-        builder: (context) => login_screen(),
-      ),
     );
+
     print('Registration successful');
     print(result);
 
@@ -70,10 +72,10 @@ Future SignUp(BuildContext cont) async {
     if (data["message"] == "Success") {
       token = data["access_token"];
       print("Registeration succeeded");
-      Navigator.push(
+      Navigator.pop(
         cont,
         MaterialPageRoute(
-          builder: (context) => login_screen(),
+          builder: (context) => successful(),
         ),
       );
     } else {
@@ -98,6 +100,7 @@ class _registerState extends State<register> {
     var addressController = TextEditingController();
     var ageController = TextEditingController();
     var phoneController = TextEditingController();
+    //var gender =
 
     return Scaffold(
       //appBar: AppBar(),
@@ -221,7 +224,7 @@ class _registerState extends State<register> {
                           onChanged: (String value) {
                             address = value;
                           },
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.streetAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field must not be empty';
@@ -261,7 +264,7 @@ class _registerState extends State<register> {
                           onChanged: (String value) {
                             phone = value;
                           },
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field must not be empty';
@@ -289,6 +292,21 @@ class _registerState extends State<register> {
                             return null;
                           },
                         ),
+                        DropdownButton<String>(
+                          value: gender,
+                          items: ['male', 'female'].map((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              gender = value!;
+                            });
+                          },
+                          hint: Text('Select a color'),
+                        ),
                         SizedBox(
                           height: 30,
                         ),
@@ -315,11 +333,8 @@ class _registerState extends State<register> {
                             Text('Already have an account?'),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pop(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => login_screen(),
-                                    ),
                                   );
                                 },
                                 child: Text('SIGN IN'))
@@ -337,7 +352,6 @@ class _registerState extends State<register> {
     );
   }
 }
-
 
 // void validateAndSave() {
 //   final FormState form = _formKey.currentState;
