@@ -7,6 +7,7 @@ import 'package:myfirstproject/views/HomePage.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:myfirstproject/views/home.dart';
+import 'package:myfirstproject/views/login_screen.dart';
 
 import 'register.dart';
 
@@ -50,7 +51,14 @@ Future Login(BuildContext cont) async {
     print(data);
     if (data == "Success") {
       print("Login succeeded");
-      Navigator.push(cont, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(
+          cont,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    Age: globalage,
+                    Username: globalusername,
+                    Gender: globalgender,
+                  )));
     } else {
       print("User not Found");
       emailController.text = "";

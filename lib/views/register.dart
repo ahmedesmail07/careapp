@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:convert';
 
 import 'package:flutter/src/widgets/container.dart';
@@ -8,6 +10,7 @@ import 'package:myfirstproject/models/user.dart';
 import 'package:myfirstproject/views/Welcome.dart';
 import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/successful.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class register extends StatefulWidget {
   const register({super.key});
@@ -52,8 +55,7 @@ Future SignUp(BuildContext cont) async {
       age == "") {
     print('Fields have not to be empty');
   } else {
-    var url =
-        Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/signup");
+    var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/signup");
     var response = await http.post(url,
         headers: {'content-Type': 'application/json'},
         body: jsonBody,
@@ -86,20 +88,21 @@ Future SignUp(BuildContext cont) async {
 
 class _registerState extends State<register> {
   @override
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var idController = TextEditingController();
+  var usernameController = TextEditingController();
+  var fullnameController = TextEditingController();
+  var addressController = TextEditingController();
+  var ageController = TextEditingController();
+  var phoneController = TextEditingController();
+  bool passwordVisible = true;
   Widget build(BuildContext context) {
     void initState() {
       super.initState();
       // fetch_users();
     }
 
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var idController = TextEditingController();
-    var usernameController = TextEditingController();
-    var fullnameController = TextEditingController();
-    var addressController = TextEditingController();
-    var ageController = TextEditingController();
-    var phoneController = TextEditingController();
     //var gender =
 
     return Scaffold(
@@ -154,13 +157,26 @@ class _registerState extends State<register> {
                           height: 20,
                         ),
                         TextFormField(
+                          obscureText: passwordVisible,
+                          //  obsecure: passwordVisible,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             prefixIcon: Icon(Icons.lock),
-                            suffixIcon: Icon(Icons.visibility),
+                            suffixIcon: IconButton(
+                              icon: Icon(passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    passwordVisible = !passwordVisible;
+                                  },
+                                );
+                              },
+                            ),
                           ),
                           controller: passwordController,
-                          obscureText: true,
+
                           onChanged: (String value) {
                             password = value;
                           },
@@ -292,20 +308,49 @@ class _registerState extends State<register> {
                             return null;
                           },
                         ),
-                        DropdownButton<String>(
-                          value: gender,
-                          items: ['male', 'female'].map((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              gender = value!;
-                            });
-                          },
-                          hint: Text('Select a color'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          //  mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                                left: 10,
+                              ),
+                              child: Text(
+                                '⚤ Gender:',
+                                style: TextStyle(
+                                    color: Colors.grey[700], fontSize: 17),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: DropdownButton2(
+                                isExpanded: true,
+                                value: gender,
+                                style: TextStyle(
+                                    color: Colors.grey[700], fontSize: 17),
+                                //underline:true ,
+                                items: ['male', 'female'].map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value!;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 30,

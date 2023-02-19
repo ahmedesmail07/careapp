@@ -11,40 +11,28 @@ import 'package:http/http.dart' as http;
 import 'package:myfirstproject/views/widgets/global.dart';
 
 class home extends StatefulWidget {
-  const home({super.key});
+//  const home({super.key});
+  final String username;
+  final String age;
+  final String gender;
+
+  home({
+    required this.username,
+    required this.age,
+    required this.gender,
+  });
 
   @override
   State<home> createState() => _homeState();
 }
 
-var username = "";
-var age = "";
-var gender = "";
-
-Future update(BuildContext cont) async {
-  var url = Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/me");
-  var response = await http.get(
-    url,
-    headers: {
-      'content-Type': 'application/json',
-      "Authorization": "Bearer ${token}"
-    },
-  );
-  print(token);
-  var data = json.decode(response.body);
-  print(data);
-  // test = "Hello";
-
-  username = data["username"].toString();
-  age = data["age"].toString();
-  gender = data["gender"].toString();
-}
+var text_color = Token.text;
 
 class _homeState extends State<home> {
   final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    update(context);
     assert(debugCheckHasMaterial(context));
     return Container(
       child: Column(
@@ -62,11 +50,8 @@ class _homeState extends State<home> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pop(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => Welcome(),
-                          ),
                         );
                       },
                       icon: Icon(
@@ -88,36 +73,16 @@ class _homeState extends State<home> {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           //hello message
-                                          'Hi,',
+                                          'Hi, ${widget.username} !',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 28,
                                             fontWeight: FontWeight.bold,
                                             overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        Text(
-                                          //hello message
-                                          username,
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.bold,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        Text(
-                                          //hello message
-                                          '!',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],
@@ -131,7 +96,7 @@ class _homeState extends State<home> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          age,
+                                          '${widget.age} , ${widget.gender}',
                                           style: TextStyle(
                                             color: Colors.blue[50],
                                             fontSize: 20,
@@ -141,15 +106,6 @@ class _homeState extends State<home> {
                                         ),
                                         SizedBox(
                                           width: 10,
-                                        ),
-                                        Text(
-                                          gender,
-                                          style: TextStyle(
-                                            color: Colors.blue[50],
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w200,
-                                            fontFamily: 'Kanit',
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -285,7 +241,8 @@ class _homeState extends State<home> {
                               index: '0',
                               Color1: Colors.red[100],
                               Color2: Colors.white,
-                              textcolor: Colors.grey[600],
+                              textcolor: //Colors.grey[600],
+                                  text_color,
                               pic:
                                   'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/heartbeat.gif',
                               sensorName: 'Heart Rate',
@@ -295,7 +252,7 @@ class _homeState extends State<home> {
                               index: '1',
                               Color1: Colors.purple[100],
                               Color2: Colors.white,
-                              textcolor: Colors.grey[600],
+                              textcolor: text_color, // Colors.grey[600],
                               pic:
                                   'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/thermometer.gif',
                               sensorName: 'Temprature',

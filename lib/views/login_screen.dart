@@ -6,6 +6,8 @@ import 'package:myfirstproject/views/Login.dart';
 import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/widgets/global.dart';
 
+import 'home.dart';
+
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
 
@@ -14,6 +16,13 @@ class login_screen extends StatefulWidget {
 }
 
 var formkey = GlobalKey<FormState>();
+var globalusername = 'ksksk';
+var globalage = '22';
+var globalgender = 'sklds';
+var Username = '';
+var Age = '';
+var Gender = '';
+var Heart;
 
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
@@ -36,8 +45,7 @@ Future Login(BuildContext cont) async {
   if (email == "" || password == "") {
     print('Fields have not to be empty');
   } else {
-    var url =
-        Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/patient/login");
+    var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/login");
     var response = await http.post(url,
         headers: {
           'content-Type': 'application/json',
@@ -51,7 +59,15 @@ Future Login(BuildContext cont) async {
       token = data["access_token"];
       print(token);
       print("Login succeeded");
-      Navigator.push(cont, MaterialPageRoute(builder: (context) => HomePage()));
+      // update(cont);
+      Navigator.push(
+          cont,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    Age: globalage,
+                    Username: globalusername,
+                    Gender: globalgender,
+                  )));
     } else {
       print("User not Found");
       emailController.text = "";
@@ -60,9 +76,34 @@ Future Login(BuildContext cont) async {
   }
 }
 
+Future update(BuildContext cont2) async {
+  // var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/me");
+  // var response = await http.get(
+  //   url,
+  //   headers: {
+  //     'content-Type': 'application/json',
+  //     "Authorization": "Bearer ${token}"
+  //   },
+  // );
+  //var data2 = json.decode(response.body);
+  //print(data2);
+  // Username = data2["username"].toString();
+  // Gender = data2["gender"].toString();
+  // Age = data2["age"].toString();
+
+  Username = "Zahraa";
+  Gender = "female";
+  Age = '23';
+
+  //Heart = '900.0';
+}
+
 class _login_screenState extends State<login_screen> {
+  bool value = false;
   @override
   Widget build(BuildContext context) {
+    //update(context);
+    // sensorupdate(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -134,15 +175,28 @@ class _login_screenState extends State<login_screen> {
                             style: TextStyle(fontSize: 20.0),
                           ),
                           onPressed: () {
-                            if (formkey.currentState!.validate()) {
-                              Login(context);
-                            }
+                            setState(() {
+                              if (formkey.currentState!.validate()) {
+                                Login(context);
+                                // update(context);
+                              }
+                              update(context);
+                              globalage = Age;
+                              globalgender = Gender;
+                              globalusername = Username;
+                              print(globalage);
+                            });
                           },
                         ),
                       ),
+
                       SizedBox(
                         height: 20,
                       ),
+
+                      SizedBox(
+                        height: 20,
+                      ), //Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -159,10 +213,19 @@ class _login_screenState extends State<login_screen> {
                               child: Text('REGISTER')),
                           TextButton(
                               onPressed: () {
+                                setState(() {
+                                  globalage = Age;
+                                  globalgender = Gender;
+                                  globalusername = Username;
+                                });
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => HomePage(),
+                                    builder: (context) => HomePage(
+                                      Age: globalage,
+                                      Username: globalusername,
+                                      Gender: globalgender,
+                                    ),
                                   ),
                                 );
                               },
@@ -179,4 +242,25 @@ class _login_screenState extends State<login_screen> {
       ),
     );
   }
+
+  // Future update(BuildContext cont2) async {
+  //   var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/me");
+  //   var response = await http.get(
+  //     url,
+  //     headers: {
+  //       'content-Type': 'application/json',
+  //       "Authorization": "Bearer ${token}"
+  //     },
+  //   );
+  //   var data = json.decode(response.body);
+  //   print(data);
+  //   // Username = data2["username"].toString();
+  //   // Gender = data2["gender"].toString();
+  //   // Age = data2["age"].toString();
+
+  //   // Username = "Zahraa";
+  //   // Gender = "female";
+  //   // Age = '23';
+  //   //Heart = '900.0';
+  // }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/Welcome.dart';
+import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/map.dart';
 import 'package:myfirstproject/views/notif.dart';
 import 'package:myfirstproject/views/register.dart';
@@ -14,6 +15,15 @@ import 'home.dart';
 
 class HomePage extends StatefulWidget {
   // const HomePage({super.key});
+  final String Username;
+  final String Age;
+  final String Gender;
+
+  HomePage({
+    required this.Username,
+    required this.Age,
+    required this.Gender,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,13 +39,18 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   /////////////////new code
   List<Widget> screens = [
-    home(),
+    home(
+      age: globalage,
+      gender: globalgender,
+      username: globalusername,
+    ),
     map(),
     notif(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    //update(context);
     return Container(
       padding: EdgeInsets.only(top: 20),
       decoration: const BoxDecoration(
@@ -72,25 +87,21 @@ class _HomePageState extends State<HomePage> {
                   ),
                   label: ''),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    CupertinoIcons.ellipses_bubble_fill,
-                  ),
+                  icon: Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        Icon(
+                          CupertinoIcons.ellipses_bubble_fill,
+                        ),
+                        CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.red,
+                        )
+                      ]),
                   label: ''),
             ]),
         body: screens[currentIndex],
       ),
     );
-  }
-
-  Future loaduserlist() async {
-    var res = await http.get(Uri.https(
-      "dummyjson.com",
-      "users",
-    ));
-    if (res.statusCode == 200) {
-      var jsonData = jsonDecode(res.body);
-      print(jsonData);
-      _users.addAll(jsonData);
-    }
   }
 }

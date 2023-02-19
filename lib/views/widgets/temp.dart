@@ -1,8 +1,10 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstproject/views/login_screen.dart';
 
 import '../HomePage.dart';
+import '../home.dart';
 
 class temp extends StatelessWidget {
   const temp({super.key});
@@ -29,7 +31,11 @@ class temp extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => HomePage(
+                          Age: globalage,
+                          Username: globalusername,
+                          Gender: globalgender,
+                        ),
                       ),
                     );
                   },
