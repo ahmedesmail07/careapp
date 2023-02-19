@@ -37,12 +37,12 @@ class sensorReading extends StatefulWidget {
   State<sensorReading> createState() => _sensorReadingState();
 }
 
-var heartint;
-var tempint;
+var heartint = 0.0;
+var tempint = 0.0;
 var heart2;
 var temp2;
 Future sensorupdate(BuildContext cont) async {
-  var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/chair/data");
+  var url = Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/chair/data");
   var response = await http.get(
     url,
     headers: {
@@ -58,6 +58,7 @@ Future sensorupdate(BuildContext cont) async {
   temp2 = data["body_temperature"].toString();
   print(heart2);
   print(temp2);
+
   // heart2 = '100';
   // temp2 = '40';
   // heartint = 100;

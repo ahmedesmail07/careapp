@@ -55,7 +55,8 @@ Future SignUp(BuildContext cont) async {
       age == "") {
     print('Fields have not to be empty');
   } else {
-    var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/signup");
+    var url =
+        Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/signup");
     var response = await http.post(url,
         headers: {'content-Type': 'application/json'},
         body: jsonBody,

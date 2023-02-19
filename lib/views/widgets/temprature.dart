@@ -44,7 +44,9 @@ class _tempratureState extends State<temprature> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            setState(() {});
+            setState(() {
+              //apiCall();
+            });
           },
           child: Icon(Icons.update),
         ),
