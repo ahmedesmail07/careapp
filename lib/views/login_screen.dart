@@ -6,6 +6,8 @@ import 'package:myfirstproject/views/Login.dart';
 import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/widgets/global.dart';
 
+import 'home.dart';
+
 class login_screen extends StatefulWidget {
   const login_screen({super.key});
 
@@ -13,8 +15,16 @@ class login_screen extends StatefulWidget {
   State<login_screen> createState() => _login_screenState();
 }
 
-var formKey = GlobalKey<FormState>();
-
+bool check = false;
+var formkey = GlobalKey<FormState>();
+var globalusername = 'ksksk';
+var globalage = '22';
+var globalgender = 'sklds';
+var Username = '';
+var Age = '';
+var Gender = '';
+var Heart;
+bool _isLoading = false;
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
 //String uname = "robobrain@gmail.com";
@@ -22,11 +32,6 @@ final passwordController = TextEditingController();
 var email = "";
 var password = "";
 Future Login(BuildContext cont) async {
-  // String url = "https://4f83-102-184-173-88.eu.ngrok.io/patient/string";
-  // final response = await http.get(Uri.parse(url));
-
-  // var responseData = json.decode(response.body);
-  // print(responseData);
   Map<String, dynamic> body = {
     "email": email,
     "password": password,
@@ -36,10 +41,11 @@ Future Login(BuildContext cont) async {
   if (email == "" || password == "") {
     print('Fields have not to be empty');
   } else {
-    var url =
-        Uri.parse("https://545b-197-133-196-239.eu.ngrok.io/patient/login");
+    var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/login");
     var response = await http.post(url,
-        headers: {'content-Type': 'application/json'},
+        headers: {
+          'content-Type': 'application/json',
+        },
         body: jsonBody,
         encoding: encoding);
 
@@ -49,7 +55,15 @@ Future Login(BuildContext cont) async {
       token = data["access_token"];
       print(token);
       print("Login succeeded");
-      Navigator.push(cont, MaterialPageRoute(builder: (context) => HomePage()));
+      // update(cont);
+      Navigator.push(
+          cont,
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    Age: globalage,
+                    Username: globalusername,
+                    Gender: globalgender,
+                  )));
     } else {
       print("User not Found");
       emailController.text = "";
@@ -58,9 +72,34 @@ Future Login(BuildContext cont) async {
   }
 }
 
+Future update(BuildContext cont2) async {
+  // var url = Uri.parse("https://6425-102-190-68-2.eu.ngrok.io/patient/me");
+  // var response = await http.get(
+  //   url,
+  //   headers: {
+  //     'content-Type': 'application/json',
+  //     "Authorization": "Bearer ${token}"
+  //   },
+  // );
+  //var data2 = json.decode(response.body);
+  //print(data2);
+  // Username = data2["username"].toString();
+  // Gender = data2["gender"].toString();
+  // Age = data2["age"].toString();
+
+  Username = "Zahraa";
+  Gender = "female";
+  Age = '23';
+
+  //Heart = '900.0';
+}
+
 class _login_screenState extends State<login_screen> {
+  bool value = false;
   @override
   Widget build(BuildContext context) {
+    //update(context);
+    // sensorupdate(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -76,7 +115,7 @@ class _login_screenState extends State<login_screen> {
               )),
           //WELCOME
           Form(
-            key: formKey,
+            key: formkey,
             child: Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(20),
@@ -127,20 +166,26 @@ class _login_screenState extends State<login_screen> {
                       Container(
                         width: double.infinity,
                         child: ElevatedButton(
-                          child: Text(
-                            'SIGN IN',
-                            style: TextStyle(fontSize: 20.0),
-                          ),
+                          child: _isLoading
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  'SIGN IN',
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              Login(context);
-                            }
+                            _login();
+                            reload();
                           },
                         ),
                       ),
+
                       SizedBox(
                         height: 20,
                       ),
+
+                      SizedBox(
+                        height: 20,
+                      ), //Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -154,7 +199,28 @@ class _login_screenState extends State<login_screen> {
                                   ),
                                 );
                               },
-                              child: Text('REGISTER'))
+                              child: Text('REGISTER')),
+                          TextButton(
+                              onPressed: () {
+                                //   _getCurrentUser();
+
+                                setState(() {
+                                  globalusername = Username;
+                                  globalage = Age;
+                                  globalgender = gender;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(
+                                      Age: globalage,
+                                      Username: globalusername,
+                                      Gender: globalgender,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text('Or Click here')),
                         ],
                       )
                     ],
@@ -166,5 +232,101 @@ class _login_screenState extends State<login_screen> {
         ],
       ),
     );
+  }
+
+  void _login() async {
+    Map<String, dynamic> body = {
+      "email": email,
+      "password": password,
+    };
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+    if (email == "" || password == "") {
+      print('Fields have not to be empty');
+    } else {
+      var url =
+          Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/login");
+      var response = await http.post(url,
+          headers: {
+            'content-Type': 'application/json',
+          },
+          body: jsonBody,
+          encoding: encoding);
+
+      var data = json.decode(response.body);
+      print(data);
+      if (data["message"] == "Success") {
+        token = data["access_token"];
+        print(token);
+        print("Login succeeded");
+      }
+    }
+
+    var url2 = Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/me");
+
+    var response = await http.get(
+      url2,
+      headers: {
+        'content-Type': 'application/json',
+        "Authorization": "Bearer ${token}"
+      },
+    );
+    if (response.statusCode == 200) {
+      var data2 = json.decode(response.body);
+      print(data2);
+      Username = data2["username"].toString();
+      Gender = data2["gender"].toString();
+      Age = data2["age"].toString();
+      globalusername = Username;
+      globalage = Age;
+      globalgender = Gender;
+      print('Username=$Username');
+      print('global username=$globalusername');
+    }
+
+    // void _getCurrentUser() async {
+    //   Username = 'Mohamed';
+    //   Age = '22';
+    //   Gender = 'male';
+    //   // var url2 = Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/me");
+
+    //   // var response = await http.get(
+    //   //   url2,
+    //   //   headers: {
+    //   //     'content-Type': 'application/json',
+    //   //     "Authorization": "Bearer ${token}"
+    //   //   },
+    //   // );
+    //   // if (response.statusCode == 200) {
+    //   //   var data2 = json.decode(response.body);
+    //   //   print(data2);
+    //   //   Username = data2["username"].toString();
+    //   //   Gender = data2["gender"].toString();
+    //   //   Age = data2["age"].toString();
+
+    //     globalusername = Username;
+    //     globalage = Age;
+    //     globalgender = Gender;
+    //     print('username=$globalusername');
+    //     print('Age=$globalage');
+    //     print('Age=$Gender');
+    //   }
+    // }
+  }
+
+  Future<void> reload() async {
+    check = true;
+    print(check);
+    await Future.delayed(Duration(seconds: 3));
+    print('after 3 secs $check');
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  Age: globalage,
+                  Username: globalusername,
+                  Gender: globalgender,
+                )));
+    return;
   }
 }

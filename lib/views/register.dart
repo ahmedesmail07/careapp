@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'dart:convert';
 
 import 'package:flutter/src/widgets/container.dart';
@@ -5,7 +7,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:myfirstproject/models/user.dart';
+import 'package:myfirstproject/views/Welcome.dart';
 import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/views/successful.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class register extends StatefulWidget {
   const register({super.key});
@@ -25,6 +30,7 @@ var id = "";
 var phone = "";
 var address = "";
 var age = "";
+var gender = "male";
 Future SignUp(BuildContext cont) async {
   Map<String, dynamic> body = {
     "id": id,
@@ -35,6 +41,7 @@ Future SignUp(BuildContext cont) async {
     "phone_number": phone,
     "address": address,
     "age": age,
+    "gender": gender,
   };
   String jsonBody = json.encode(body);
   final encoding = Encoding.getByName('utf-8');
@@ -49,7 +56,7 @@ Future SignUp(BuildContext cont) async {
     print('Fields have not to be empty');
   } else {
     var url =
-        Uri.parse("https://545b-197-133-196-239.eu.ngrok.io/patient/signup");
+        Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/signup");
     var response = await http.post(url,
         headers: {'content-Type': 'application/json'},
         body: jsonBody,
@@ -57,12 +64,10 @@ Future SignUp(BuildContext cont) async {
     var result = response.body;
     print(result);
 
-    Navigator.push(
+    Navigator.pop(
       cont,
-      MaterialPageRoute(
-        builder: (context) => login_screen(),
-      ),
     );
+
     print('Registration successful');
     print(result);
 
@@ -70,10 +75,10 @@ Future SignUp(BuildContext cont) async {
     if (data["message"] == "Success") {
       token = data["access_token"];
       print("Registeration succeeded");
-      Navigator.push(
+      Navigator.pop(
         cont,
         MaterialPageRoute(
-          builder: (context) => login_screen(),
+          builder: (context) => successful(),
         ),
       );
     } else {
@@ -84,20 +89,22 @@ Future SignUp(BuildContext cont) async {
 
 class _registerState extends State<register> {
   @override
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var idController = TextEditingController();
+  var usernameController = TextEditingController();
+  var fullnameController = TextEditingController();
+  var addressController = TextEditingController();
+  var ageController = TextEditingController();
+  var phoneController = TextEditingController();
+  bool passwordVisible = true;
   Widget build(BuildContext context) {
     void initState() {
       super.initState();
       // fetch_users();
     }
 
-    var emailController = TextEditingController();
-    var passwordController = TextEditingController();
-    var idController = TextEditingController();
-    var usernameController = TextEditingController();
-    var fullnameController = TextEditingController();
-    var addressController = TextEditingController();
-    var ageController = TextEditingController();
-    var phoneController = TextEditingController();
+    //var gender =
 
     return Scaffold(
       //appBar: AppBar(),
@@ -151,13 +158,26 @@ class _registerState extends State<register> {
                           height: 20,
                         ),
                         TextFormField(
+                          obscureText: passwordVisible,
+                          //  obsecure: passwordVisible,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             prefixIcon: Icon(Icons.lock),
-                            suffixIcon: Icon(Icons.visibility),
+                            suffixIcon: IconButton(
+                              icon: Icon(passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    passwordVisible = !passwordVisible;
+                                  },
+                                );
+                              },
+                            ),
                           ),
                           controller: passwordController,
-                          obscureText: true,
+
                           onChanged: (String value) {
                             password = value;
                           },
@@ -221,7 +241,7 @@ class _registerState extends State<register> {
                           onChanged: (String value) {
                             address = value;
                           },
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.streetAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field must not be empty';
@@ -261,7 +281,7 @@ class _registerState extends State<register> {
                           onChanged: (String value) {
                             phone = value;
                           },
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Field must not be empty';
@@ -290,6 +310,50 @@ class _registerState extends State<register> {
                           },
                         ),
                         SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          //  mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 20,
+                                left: 10,
+                              ),
+                              child: Text(
+                                '⚤ Gender:',
+                                style: TextStyle(
+                                    color: Colors.grey[700], fontSize: 17),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: DropdownButton2(
+                                isExpanded: true,
+                                value: gender,
+                                style: TextStyle(
+                                    color: Colors.grey[700], fontSize: 17),
+                                //underline:true ,
+                                items: ['male', 'female'].map((value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value!;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
                           height: 30,
                         ),
                         Container(
@@ -315,11 +379,8 @@ class _registerState extends State<register> {
                             Text('Already have an account?'),
                             TextButton(
                                 onPressed: () {
-                                  Navigator.push(
+                                  Navigator.pop(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => login_screen(),
-                                    ),
                                   );
                                 },
                                 child: Text('SIGN IN'))
@@ -337,7 +398,6 @@ class _registerState extends State<register> {
     );
   }
 }
-
 
 // void validateAndSave() {
 //   final FormState form = _formKey.currentState;

@@ -5,39 +5,20 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
+import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/widgets/temp.dart';
+
+import '../home.dart';
+import '../register.dart';
 
 class temprature extends StatefulWidget {
   static List<dynamic> activities = [];
 
-  const temprature({super.key});
+  //const temprature({super.key});
 
   @override
   State<temprature> createState() => _tempratureState();
-}
-
-var test = '100.0';
-var date = '11 FEBRUARY';
-Future update(BuildContext cont) async {
-  Map<String, dynamic> body = {
-    "email": "",
-    "password": "",
-  };
-  String jsonBody = json.encode(body);
-  final encoding = Encoding.getByName('utf-8');
-
-  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
-  var response = await http.get(
-    url,
-    headers: {'content-Type': 'application/json'},
-  );
-
-  var data = json.decode(response.body);
-  // test = "Hello";
-  test = data["heart_rate"].toString();
-  if (data["heart_rate"] < 120) {
-    print('patient died');
-  }
-  print(data["heart_rate"]);
 }
 
 class _tempratureState extends State<temprature> {
@@ -64,7 +45,7 @@ class _tempratureState extends State<temprature> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              update(context);
+              //apiCall();
             });
           },
           child: Icon(Icons.update),
@@ -83,7 +64,11 @@ class _tempratureState extends State<temprature> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => HomePage(
+                          Age: globalage,
+                          Username: globalusername,
+                          Gender: globalgender,
+                        ),
                       ),
                     );
                   },
@@ -149,7 +134,7 @@ class _tempratureState extends State<temprature> {
                                           Color.fromARGB(255, 114, 109, 109)),
                                 ),
                                 Text(
-                                  test,
+                                  Token.tempreading,
                                   style: TextStyle(
                                       fontSize: 60,
                                       color: Color.fromARGB(255, 73, 71, 71)),

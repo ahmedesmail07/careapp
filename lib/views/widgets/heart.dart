@@ -5,42 +5,48 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
+import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/register.dart';
+import 'package:myfirstproject/views/services/notif_service.dart';
+import 'package:myfirstproject/views/widgets/global.dart';
+
+import '../home.dart';
 
 class heart extends StatefulWidget {
   static List<dynamic> activities = [];
 
-  const heart({super.key});
+  // const heart({super.key});
 
   @override
   State<heart> createState() => _heartState();
 }
 
-var test = "";
-
 var date = '11 FEBRUARY';
-Future update(BuildContext cont) async {
-  Map<String, dynamic> body = {
-    "email": "",
-    "password": "",
-  };
-  String jsonBody = json.encode(body);
-  final encoding = Encoding.getByName('utf-8');
+// Future update(BuildContext cont) async {
+//   Map<String, dynamic> body = {
+//     "email": "",
+//     "password": "",
+//   };
+//   String jsonBody = json.encode(body);
+//   final encoding = Encoding.getByName('utf-8');
 
-  var url = Uri.parse("https://4f83-102-184-173-88.eu.ngrok.io/chair/data/1");
-  var response = await http.get(
-    url,
-    headers: {'content-Type': 'application/json'},
-  );
+//   var url = Uri.parse("https://304d-197-133-196-239.eu.ngrok.io/chair/data");
+//   var response = await http.get(
+//     url,
+//     headers: {
+//       'content-Type': 'application/json',
+//       "Authorization": "Bearer ${token}"
+//     },
+//   );
 
-  var data = json.decode(response.body);
-  // test = "Hello";
-  test = data["heart_rate"].toString();
-  if (data["heart_rate"] < 120) {
-    print('patient died');
-  }
-  print(data["heart_rate"]);
-}
+//   var data = json.decode(response.body);
+//   print(data);
+//   test = data["heart_rate"].toString();
+//   if (data["heart_rate"] < 120) {
+//     print('patient died');
+//   }
+//   print(data["heart_rate"]);
+// }
 
 class _heartState extends State<heart> {
   @override
@@ -64,10 +70,10 @@ class _heartState extends State<heart> {
       ),
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async {
             setState(() {
-              print(token);
-              //  update(context);
+              print(Token.heartreading);
+              // update(context);
             });
           },
           child: Icon(Icons.update),
@@ -86,7 +92,11 @@ class _heartState extends State<heart> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => HomePage(
+                          Age: globalage,
+                          Username: globalusername,
+                          Gender: globalgender,
+                        ),
                       ),
                     );
                   },
@@ -127,47 +137,52 @@ class _heartState extends State<heart> {
                         height: 60,
                       ),
                       Center(
-                        child: Container(
-                          width: 300.0,
-                          height: 300.0,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromARGB(255, 142, 205, 235),
-                              width: 7.0,
+                        child: Stack(children: [
+                          Container(
+                            width: 300.0,
+                            height: 300.0,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color.fromARGB(255, 142, 205, 235),
+                                width: 7.0,
+                              ),
+                              color: Colors.white,
+                              shape: BoxShape.circle,
                             ),
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 80,
-                                ),
-                                Text(
-                                  '11 February',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color:
-                                          Color.fromARGB(255, 114, 109, 109)),
-                                ),
-                                Text(
-                                  "test",
-                                  style: TextStyle(
-                                      fontSize: 60,
-                                      color: Color.fromARGB(255, 73, 71, 71)),
-                                ),
-                                Text(
-                                  '❤️  BPM',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color:
-                                          Color.fromARGB(255, 114, 109, 109)),
-                                ),
-                              ],
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 80,
+                                  ),
+                                  Text(
+                                    '11 February',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color:
+                                            Color.fromARGB(255, 114, 109, 109)),
+                                  ),
+                                  Builder(builder: (context) {
+                                    return Text(
+                                      Token.heartreading,
+                                      style: TextStyle(
+                                          fontSize: 60,
+                                          color:
+                                              Color.fromARGB(255, 73, 71, 71)),
+                                    );
+                                  }),
+                                  Text(
+                                    '❤️  BPM',
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color:
+                                            Color.fromARGB(255, 114, 109, 109)),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
+                        ]),
                       ),
                       SizedBox(
                         height: 20,
@@ -244,5 +259,13 @@ class _heartState extends State<heart> {
         ),
       ),
     );
+  }
+}
+
+Stream<DateTime> getTime() async* {
+  DateTime currentTime = DateTime.now();
+  while (true) {
+    await Future.delayed(Duration(seconds: 1));
+    yield currentTime;
   }
 }

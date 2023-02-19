@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/views/widgets/global.dart';
 import 'package:myfirstproject/views/widgets/heart.dart';
 import 'package:myfirstproject/views/widgets/blood.dart';
 import 'package:myfirstproject/views/widgets/temprature.dart';
 import 'package:myfirstproject/views/widgets/temp.dart';
+import 'package:myfirstproject/views/home.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+import '../register.dart';
+import '../services/notif_service.dart';
 import 'heart.dart';
 
-class sensorReading extends StatelessWidget {
+class sensorReading extends StatefulWidget {
   final textcolor;
   final String sensorName;
   final String state;
@@ -15,12 +22,6 @@ class sensorReading extends StatelessWidget {
   final Color2;
   final index;
 
-  List<Widget> sensors = [
-    heart(),
-    temprature(),
-    blood(),
-    temp(),
-  ];
   sensorReading({
     Key? key,
     required this.textcolor,
@@ -33,15 +34,70 @@ class sensorReading extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<sensorReading> createState() => _sensorReadingState();
+}
+
+var heartint = 0.0;
+var tempint = 0.0;
+var heart2;
+var temp2;
+Future sensorupdate(BuildContext cont) async {
+  var url = Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/chair/data");
+  var response = await http.get(
+    url,
+    headers: {
+      'content-Type': 'application/json',
+      "Authorization": "Bearer ${token}"
+    },
+  );
+  var data = json.decode(response.body);
+  print(data);
+  heartint = data["heart_rate"];
+  tempint = data["body_temperature"];
+  heart2 = data["heart_rate"].toString();
+  temp2 = data["body_temperature"].toString();
+  print(heart2);
+  print(temp2);
+
+  // heart2 = '100';
+  // temp2 = '40';
+  // heartint = 100;
+  // tempint = 40;
+  if (heartint > 90 || heartint < 50) {
+    NotificationService().showNotification(
+        title: 'Heart Emergency',
+        body: 'Heart Rate is high Go to the hospital immediately!');
+  }
+  if (tempint > 37 || tempint < 35) {
+    NotificationService().showNotification(
+        title: 'Temprature Emergency',
+        body: 'body Temp Rate is high Call the doctor immediately!');
+  }
+}
+
+class _sensorReadingState extends State<sensorReading> {
+  List<Widget> sensors = [
+    heart(),
+    temprature(),
+    blood(),
+    temp(),
+  ];
+
+  @override
   Widget build(BuildContext context) {
+    sensorupdate(context);
     return Card(
       child: InkWell(
         onTap: () {
-          print('tapped ${index}');
+          setState(() {
+            Token.heartreading = heart2;
+            Token.tempreading = temp2;
+          });
+          print('tapped ${widget.index}');
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => sensors[int.parse(index)],
+              builder: (context) => sensors[int.parse(widget.index)],
             ),
           );
         },
@@ -53,23 +109,23 @@ class sensorReading extends StatelessWidget {
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color1, Color2]),
+                colors: [widget.Color1, widget.Color2]),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundImage: NetworkImage(pic),
+                backgroundImage: NetworkImage(widget.pic),
               ),
               SizedBox(
                 height: 15,
               ),
               Text(
-                sensorName,
+                widget.sensorName,
                 style: TextStyle(
                   fontSize: 20,
-                  color: textcolor,
+                  color: widget.textcolor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
