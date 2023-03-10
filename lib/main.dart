@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
-import 'package:myfirstproject/views/Login.dart';
+import 'package:myfirstproject/views/login/Login.dart';
 import 'package:myfirstproject/views/Welcome.dart';
+import 'package:myfirstproject/views/chair/chair.dart';
 import 'package:myfirstproject/views/home.dart';
 import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/notif.dart';
@@ -34,7 +35,7 @@ class _healthappState extends State<healthapp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Welcome(),
+      home: login(),
     );
   }
 }
