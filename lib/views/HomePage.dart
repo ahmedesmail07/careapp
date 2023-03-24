@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myfirstproject/views/Welcome.dart';
-import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/constants.dart';
+import 'package:myfirstproject/views/login/components/body.dart';
+
 import 'package:myfirstproject/views/map.dart';
 import 'package:myfirstproject/views/notif.dart';
 import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/widgets/emoji.dart';
 import 'package:myfirstproject/views/widgets/sensorReading.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:myfirstproject/views/global.dart';
+import 'package:myfirstproject/views/login/Login.dart';
 import 'home.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,17 +57,23 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.only(top: 20),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background-gradient2.jpg'),
-            fit: BoxFit.cover),
+          image: AssetImage(
+            'assets/images/animatedbackground.gif',
+          ),
+          fit: BoxFit.cover,
+          //fit: BoxFit.cover
+        ),
         // gradient: LinearGradient(
         //     begin: Alignment.topLeft,
         //     end: Alignment.bottomRight,
-        //     colors: [Colors.deepPurple, Colors.deepOrange])),
+        //     colors: [kPrimaryLightColor, Colors.white]),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            unselectedItemColor: Theme.of(context).primaryColor,
+            selectedItemColor: Theme.of(context).accentColor,
             currentIndex: currentIndex,
             elevation: 10,
             backgroundColor: Colors.white,

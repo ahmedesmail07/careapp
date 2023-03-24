@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
 import 'package:myfirstproject/views/home.dart';
-import 'package:myfirstproject/views/login_screen.dart';
+import 'package:myfirstproject/views/login/Login.dart';
+import 'package:myfirstproject/views/global.dart';
+import '../constants.dart';
+import 'login/components/body.dart';
 
 class map extends StatefulWidget {
   static List<dynamic> activities = [];
@@ -24,8 +27,12 @@ class _mapState extends State<map> {
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background-gradient2.jpg'),
+            image: AssetImage('assets/images/animatedbackground.gif'),
             fit: BoxFit.cover),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [kPrimary2, Colors.white]),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,

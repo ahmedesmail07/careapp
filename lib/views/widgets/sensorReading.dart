@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myfirstproject/views/login_screen.dart';
-import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/global.dart';
 import 'package:myfirstproject/views/widgets/heart.dart';
 import 'package:myfirstproject/views/widgets/blood.dart';
 import 'package:myfirstproject/views/widgets/temprature.dart';
@@ -50,19 +49,21 @@ Future sensorupdate(BuildContext cont) async {
       "Authorization": "Bearer ${token}"
     },
   );
-  var data = json.decode(response.body);
-  print(data);
-  heartint = data["heart_rate"];
-  tempint = data["body_temperature"];
-  heart2 = data["heart_rate"].toString();
-  temp2 = data["body_temperature"].toString();
-  print(heart2);
-  print(temp2);
+  /*remove this comments*/
+  //var data = json.decode(response.body);
+  //print(data);
+  // heartint = data["heart_rate"];
+  //tempint = data["body_temperature"];
+  //heart2 = data["heart_rate"].toString();
+  //temp2 = data["body_temperature"].toString();
+  //print(heart2);
+  //print(temp2);
+  /*remove this comments*/
 
-  // heart2 = '100';
-  // temp2 = '40';
-  // heartint = 100;
-  // tempint = 40;
+  heart2 = '100';
+  temp2 = '40';
+  heartint = 100;
+  tempint = 40;
   if (heartint > 90 || heartint < 50) {
     NotificationService().showNotification(
         title: 'Heart Emergency',

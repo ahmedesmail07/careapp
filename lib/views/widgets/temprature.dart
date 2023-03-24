@@ -5,11 +5,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
-import 'package:myfirstproject/views/login_screen.dart';
-import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/global.dart';
 import 'package:myfirstproject/views/widgets/temp.dart';
 
 import '../home.dart';
+import '../login/components/body.dart';
 import '../register.dart';
 
 class temprature extends StatefulWidget {
@@ -38,7 +38,7 @@ class _tempratureState extends State<temprature> {
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background-gradient2.jpg'),
+            image: AssetImage('assets/images/animatedbackground.gif'),
             fit: BoxFit.cover),
       ),
       child: Scaffold(

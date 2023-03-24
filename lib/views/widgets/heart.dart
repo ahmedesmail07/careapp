@@ -5,12 +5,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstproject/network/dio_helper.dart';
 import 'package:myfirstproject/views/HomePage.dart';
-import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/services/notif_service.dart';
-import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/global.dart';
 
 import '../home.dart';
+import '../login/components/body.dart';
 
 class heart extends StatefulWidget {
   static List<dynamic> activities = [];
@@ -65,7 +65,7 @@ class _heartState extends State<heart> {
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background-gradient2.jpg'),
+            image: AssetImage('assets/images/animatedbackground.gif'),
             fit: BoxFit.cover),
       ),
       child: Scaffold(

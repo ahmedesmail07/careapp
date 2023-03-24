@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstproject/constants.dart';
+import 'package:myfirstproject/views/login/Login.dart';
 import 'package:myfirstproject/views/register.dart';
 import 'package:myfirstproject/views/widgets/sensorReading.dart';
 import 'HomePage.dart';
@@ -8,7 +10,7 @@ import 'Welcome.dart';
 import 'notif.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/global.dart';
 
 class home extends StatefulWidget {
 //  const home({super.key});
@@ -50,8 +52,11 @@ class _homeState extends State<home> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pop(
+                        Navigator.pushReplacement(
                           context,
+                          MaterialPageRoute(
+                            builder: (context) => login(),
+                          ),
                         );
                       },
                       icon: Icon(
@@ -98,9 +103,9 @@ class _homeState extends State<home> {
                                         Text(
                                           '${widget.age} , ${widget.gender}',
                                           style: TextStyle(
-                                            color: Colors.blue[50],
+                                            color: Colors.white,
                                             fontSize: 20,
-                                            fontWeight: FontWeight.w200,
+                                            // fontWeight: FontWeight.,
                                             fontFamily: 'Kanit',
                                           ),
                                         ),
@@ -239,43 +244,43 @@ class _homeState extends State<home> {
                           children: [
                             sensorReading(
                               index: '0',
-                              Color1: Colors.red[100],
+                              Color1: kPrimaryLightColor,
                               Color2: Colors.white,
                               textcolor: //Colors.grey[600],
                                   text_color,
                               pic:
-                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/heartbeat.gif',
+                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/heart-rate.png',
                               sensorName: 'Heart Rate',
                               state: '70-80 Safe',
                             ),
                             sensorReading(
                               index: '1',
-                              Color1: Colors.purple[100],
+                              Color1: kPrimaryLightColor,
                               Color2: Colors.white,
                               textcolor: text_color, // Colors.grey[600],
                               pic:
-                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/thermometer.gif',
+                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/temperature.png',
                               sensorName: 'Temprature',
                               state: '70-80  Safe',
                             ),
                             sensorReading(
                               index: '2',
-                              Color1: Colors.blue[100],
+                              Color1: kPrimaryLightColor,
                               Color2: Colors.white,
                               textcolor: Colors.grey[600],
                               pic:
-                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/pipette.gif',
-                              sensorName: 'Sugar Blood Level',
+                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/glucose-meter.png',
+                              sensorName: ' BloodSugar-Level',
                               state: '180-190  Dangerous',
                             ),
                             sensorReading(
                               index: '3',
-                              Color1: Colors.orange[100],
+                              Color1: kPrimaryLightColor,
                               Color2: Colors.white,
                               textcolor: Colors.grey[600],
                               pic:
-                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/blood-transfusion.gif',
-                              sensorName: 'Blood Pressure',
+                                  'https://raw.githubusercontent.com/Zahraa5Ashraf/flutter/main/oxygen-mask.png',
+                              sensorName: 'Oxygen-Level',
                               state: '70-80  Safe',
                             ),
                           ],

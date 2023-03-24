@@ -1,10 +1,10 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:myfirstproject/views/login_screen.dart';
 
 import '../HomePage.dart';
 import '../home.dart';
+import '../login/components/body.dart';
 
 class temp extends StatelessWidget {
   const temp({super.key});
@@ -15,7 +15,7 @@ class temp extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background-gradient2.jpg'),
+            image: AssetImage('assets/images/animatedbackground.gif'),
             fit: BoxFit.cover),
       ),
       child: Scaffold(

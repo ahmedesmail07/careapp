@@ -12,6 +12,8 @@ import 'package:myfirstproject/views/login_screen.dart';
 import 'package:myfirstproject/views/successful.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
+import 'chair/chair.dart';
+
 class register extends StatefulWidget {
   const register({super.key});
 
@@ -25,66 +27,73 @@ var formkey = GlobalKey<FormState>();
 var email = "";
 var password = "";
 var fullname = "";
-var username = "";
+var username2 = "";
 var id = "";
 var phone = "";
 var address = "";
-var age = "";
-var gender = "male";
+var age2 = "";
+var gender2 = "";
 Future SignUp(BuildContext cont) async {
-  Map<String, dynamic> body = {
-    "id": id,
-    "email": email,
-    "password": password,
-    "patient_full_name": fullname,
-    "username": username,
-    "phone_number": phone,
-    "address": address,
-    "age": age,
-    "gender": gender,
-  };
-  String jsonBody = json.encode(body);
-  final encoding = Encoding.getByName('utf-8');
-  if (email == "" ||
-      password == "" ||
-      id == "" ||
-      fullname == "" ||
-      username == "" ||
-      phone == "" ||
-      address == "" ||
-      age == "") {
-    print('Fields have not to be empty');
-  } else {
-    var url =
-        Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/signup");
-    var response = await http.post(url,
-        headers: {'content-Type': 'application/json'},
-        body: jsonBody,
-        encoding: encoding);
-    var result = response.body;
-    print(result);
+  /*REMOVE COMMENT WHEN ONLINE*/
 
-    Navigator.pop(
-      cont,
-    );
+  // Map<String, dynamic> body = {
+  //   "id": id,
+  //   "email": email,
+  //   "password": password,
+  //   "patient_full_name": fullname,
+  //   "username": username2,
+  //   "phone_number": phone,
+  //   "address": address,
+  //   "age": age2,
+  //   "gender": gender2,
+  // };
+  // String jsonBody = json.encode(body);
+  // final encoding = Encoding.getByName('utf-8');
+  // if (email == "" ||
+  //     password == "" ||
+  //     id == "" ||
+  //     fullname == "" ||
+  //     username2 == "" ||
+  //     phone == "" ||
+  //     address == "" ||
+  //     age2 == "") {
+  //   print('Fields have not to be empty');
+  // } else {
+  //   var url =
+  //       Uri.parse("https://cba7-196-221-98-202.eu.ngrok.io/patient/signup");
+  //   var response = await http.post(url,
+  //       headers: {'content-Type': 'application/json'},
+  //       body: jsonBody,
+  //       encoding: encoding);
+  //   var result = response.body;
+  //   print(result);
 
-    print('Registration successful');
-    print(result);
+  /*REMOVE COMMENT WHEN ONLINE*/
 
-    var data = json.decode(response.body);
-    if (data["message"] == "Success") {
-      token = data["access_token"];
-      print("Registeration succeeded");
-      Navigator.pop(
-        cont,
-        MaterialPageRoute(
-          builder: (context) => successful(),
-        ),
-      );
-    } else {
-      print("Registeration Failed");
-    }
-  }
+  Navigator.push(
+    cont,
+    MaterialPageRoute(
+      builder: (context) => addchair(),
+    ),
+  );
+
+  // print('Registration successful');
+  // print(result);
+
+  // var data = json.decode(response.body);
+  // if (data["message"] == "Success") {
+  //   token = data["access_token"];
+  //   print("Registeration succeeded");
+  //   Navigator.pop(
+  //     cont,
+  //     MaterialPageRoute(
+  //       builder: (context) => successful(),
+  //     ),
+  //   );
+  // } else {
+  //   print("Registeration Failed");
+  // }
+  //}
 }
 
 class _registerState extends State<register> {
@@ -219,7 +228,7 @@ class _registerState extends State<register> {
                           ),
                           controller: usernameController,
                           onChanged: (String value) {
-                            username = value;
+                            username2 = value;
                           },
                           keyboardType: TextInputType.text,
                           validator: (value) {
@@ -299,7 +308,7 @@ class _registerState extends State<register> {
                           ),
                           controller: ageController,
                           onChanged: (String value) {
-                            age = value;
+                            age2 = value;
                           },
                           keyboardType: TextInputType.number,
                           validator: (value) {
@@ -334,7 +343,7 @@ class _registerState extends State<register> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: DropdownButton2(
                                 isExpanded: true,
-                                value: gender,
+                                value: gender2,
                                 style: TextStyle(
                                     color: Colors.grey[700], fontSize: 17),
                                 //underline:true ,
@@ -346,7 +355,7 @@ class _registerState extends State<register> {
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    gender = value!;
+                                    gender2 = value!;
                                   });
                                 },
                               ),

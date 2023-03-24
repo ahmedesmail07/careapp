@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myfirstproject/views/HomePage.dart';
 import 'package:myfirstproject/views/login/Login.dart';
 import 'package:myfirstproject/views/register.dart';
-import 'package:myfirstproject/views/widgets/global.dart';
+import 'package:myfirstproject/views/global.dart';
 
 import 'home.dart';
 
@@ -15,22 +15,22 @@ class login_screen extends StatefulWidget {
   State<login_screen> createState() => _login_screenState();
 }
 
-bool check = false;
-var formkey = GlobalKey<FormState>();
-var globalusername = 'ksksk';
-var globalage = '22';
-var globalgender = 'sklds';
-var Username = '';
-var Age = '';
-var Gender = '';
-var Heart;
-bool _isLoading = false;
-final emailController = TextEditingController();
-final passwordController = TextEditingController();
-//String uname = "robobrain@gmail.com";
-//String pass = "123456";
-var email = "";
-var password = "";
+// bool check = false;
+// var formkey = GlobalKey<FormState>();
+// var globalusername = 'ksksk';
+// var globalage = '22';
+// var globalgender = 'sklds';
+// var Username = '';
+// var Age = '';
+// var Gender = '';
+// var Heart;
+// bool _isLoading = false;
+// final emailController = TextEditingController();
+// final passwordController = TextEditingController();
+// String uname = "robobrain@gmail.com";
+// String pass = "123456";
+// var email = "";
+// var password = "";
 Future Login(BuildContext cont) async {
   Map<String, dynamic> body = {
     "email": email,
@@ -56,18 +56,18 @@ Future Login(BuildContext cont) async {
       print(token);
       print("Login succeeded");
       // update(cont);
-      Navigator.push(
-          cont,
-          MaterialPageRoute(
-              builder: (context) => HomePage(
-                    Age: globalage,
-                    Username: globalusername,
-                    Gender: globalgender,
-                  )));
+      // Navigator.push(
+      //     cont,
+      //     MaterialPageRoute(
+      //         builder: (context) => HomePage(
+      //               Age: globalage,
+      //               Username: globalusername,
+      //               Gender: globalgender,
+      //             )));
     } else {
-      print("User not Found");
-      emailController.text = "";
-      passwordController.text = "";
+      // print("User not Found");
+      // emailController.text = "";
+      // passwordController.text = "";
     }
   }
 }
@@ -87,9 +87,9 @@ Future update(BuildContext cont2) async {
   // Gender = data2["gender"].toString();
   // Age = data2["age"].toString();
 
-  Username = "Zahraa";
-  Gender = "female";
-  Age = '23';
+  // Username = "Zahraa";
+  // Gender = "female";
+  // Age = '23';
 
   //Heart = '900.0';
 }
@@ -135,7 +135,7 @@ class _login_screenState extends State<login_screen> {
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
                         ),
-                        controller: emailController,
+                        //   controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (String value) {
                           email = value;
@@ -152,7 +152,7 @@ class _login_screenState extends State<login_screen> {
                           prefixIcon: Icon(Icons.lock),
                           //  suffixIcon: Icon(Icons.visibility),
                         ),
-                        controller: passwordController,
+                        //  controller: passwordController,
                         onChanged: (value) {
                           password = value;
                         },
@@ -166,15 +166,17 @@ class _login_screenState extends State<login_screen> {
                       Container(
                         width: double.infinity,
                         child: ElevatedButton(
-                          child: _isLoading
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  'SIGN IN',
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
+                          child:
+                              // _isLoading
+                              //     ? CircularProgressIndicator()
+                              //     :
+                              Text(
+                            'SIGN IN',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
                           onPressed: () {
                             _login();
-                            reload();
+                            //      reload();
                           },
                         ),
                       ),
@@ -205,20 +207,20 @@ class _login_screenState extends State<login_screen> {
                                 //   _getCurrentUser();
 
                                 setState(() {
-                                  globalusername = Username;
-                                  globalage = Age;
-                                  globalgender = gender;
+                                  // globalusername = Username;
+                                  // globalage = Age;
+                                  // globalgender = gender;
                                 });
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomePage(
-                                      Age: globalage,
-                                      Username: globalusername,
-                                      Gender: globalgender,
-                                    ),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => HomePage(
+                                //       // Age: globalage,
+                                //       // Username: globalusername,
+                                //       // Gender: globalgender,
+                                //     ),
+                                //   ),
+                                // );
                               },
                               child: Text('Or Click here')),
                         ],
@@ -271,18 +273,18 @@ class _login_screenState extends State<login_screen> {
         "Authorization": "Bearer ${token}"
       },
     );
-    if (response.statusCode == 200) {
-      var data2 = json.decode(response.body);
-      print(data2);
-      Username = data2["username"].toString();
-      Gender = data2["gender"].toString();
-      Age = data2["age"].toString();
-      globalusername = Username;
-      globalage = Age;
-      globalgender = Gender;
-      print('Username=$Username');
-      print('global username=$globalusername');
-    }
+    // if (response.statusCode == 200) {
+    //   var data2 = json.decode(response.body);
+    //   print(data2);
+    //   Username = data2["username"].toString();
+    //   Gender = data2["gender"].toString();
+    //   Age = data2["age"].toString();
+    //   globalusername = Username;
+    //   globalage = Age;
+    //   globalgender = Gender;
+    //   print('Username=$Username');
+    //   print('global username=$globalusername');
+    // }
 
     // void _getCurrentUser() async {
     //   Username = 'Mohamed';
@@ -314,19 +316,19 @@ class _login_screenState extends State<login_screen> {
     // }
   }
 
-  Future<void> reload() async {
-    check = true;
-    print(check);
-    await Future.delayed(Duration(seconds: 3));
-    print('after 3 secs $check');
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HomePage(
-                  Age: globalage,
-                  Username: globalusername,
-                  Gender: globalgender,
-                )));
-    return;
-  }
+  // Future<void> reload() async {
+  //   check = true;
+  //   print(check);
+  //   await Future.delayed(Duration(seconds: 3));
+  //   print('after 3 secs $check');
+  //   Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //           builder: (context) => HomePage(
+  //                 Age: globalage,
+  //                 Username: globalusername,
+  //                 Gender: globalgender,
+  //               )));
+  //   return;
+  // }
 }
